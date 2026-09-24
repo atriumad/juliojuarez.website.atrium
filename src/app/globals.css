@@ -1,26 +1,276 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "lenis/dist/lenis.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Julio Juarez — Private Dining
+ * Palette: near-white ground, near-black ink, ONE muted sepia accent.
+ * Neutrals are almost achromatic (chroma <= 0.008) with a faint sepia cast
+ * (hue ~65-85), like a toned black-and-white print. No pure black/white.
+ * Light only. The `.dark` scope below is NOT a site theme: it inverts the
+ * semantic tokens inside a single section (Philosophy). Use as
+ * <section className="dark bg-background text-foreground">.
+ */
+
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-prata), "Times New Roman", serif;
+  --font-heading: var(--font-display);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sepia: var(--sepia);
+  --color-sepia-foreground: var(--sepia-foreground);
+
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
+  --radius-2xl: var(--radius);
+  --radius-3xl: var(--radius);
+  --radius-4xl: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
+/*
+ * Type scale. Five working steps + label + display, ratios >= 1.2 between
+ * body steps and much wider up top. Fluid via clamp() (marketing page).
+ */
+@theme {
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.22em;
+
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.55;
+
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.65;
+
+  --text-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --text-lg--line-height: 1.5;
+
+  --text-xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --text-xl--line-height: 1.15;
+
+  --text-2xl: clamp(2.5rem, 1.7rem + 3.4vw, 4.5rem);
+  --text-2xl--line-height: 1.04;
+  --text-2xl--letter-spacing: -0.01em;
+
+  --text-display: clamp(5rem, 2rem + 9vw, 10.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.02em;
+}
+
+:root {
+  /* Near-white / near-black */
+  --background: oklch(0.975 0.006 85);
+  --foreground: oklch(0.2 0.006 70);
+  --card: oklch(0.975 0.006 85);
+  --card-foreground: oklch(0.2 0.006 70);
+  --popover: oklch(0.975 0.006 85);
+  --popover-foreground: oklch(0.2 0.006 70);
+  --primary: oklch(0.2 0.006 70);
+  --primary-foreground: oklch(0.975 0.006 85);
+  --secondary: oklch(0.945 0.008 85);
+  --secondary-foreground: oklch(0.2 0.006 70);
+  --muted: oklch(0.945 0.008 85);
+  --muted-foreground: oklch(0.47 0.008 75); /* 6.4:1 on background */
+  --accent: oklch(0.945 0.008 85);
+  --accent-foreground: oklch(0.2 0.006 70);
+
+  /* The one accent: toned sepia. 5.6:1 on background, safe for text and fills. */
+  --sepia: oklch(0.5 0.05 65);
+  --sepia-foreground: oklch(0.985 0.005 85);
+  --ring: var(--sepia);
+
+  /* Errors only. Oxblood, not a second brand color. */
+  --destructive: oklch(0.5 0.14 28);
+
+  --border: oklch(0.87 0.008 80); /* hairlines */
+  --input: oklch(0.56 0.008 75); /* field edges need >= 3:1 (4.3:1) */
+  --radius: 0.125rem; /* buttons, fields: near-square */
+  --radius-frame: 1rem; /* photo frames only */
+
+  /* Layout tokens */
+  --photo-tone: oklch(0.25 0.006 65); /* placeholder ground for missing photos */
+  --nav-h: 4.5rem;
+  /* One margin for all four sides of the page frame: 16px phone, ~44px @1440, 64px cap. */
+  --gutter: clamp(1rem, 0.5rem + 2.5vw, 4rem);
+  --space-section: clamp(5rem, 3rem + 8vw, 11rem);
+}
+
+@media (min-width: 48rem) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --nav-h: 5rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Inverted scope for the Philosophy section only. */
+.dark {
+  --background: oklch(0.17 0.006 65);
+  --foreground: oklch(0.95 0.006 85);
+  --card: oklch(0.17 0.006 65);
+  --card-foreground: oklch(0.95 0.006 85);
+  --popover: oklch(0.17 0.006 65);
+  --popover-foreground: oklch(0.95 0.006 85);
+  --primary: oklch(0.95 0.006 85);
+  --primary-foreground: oklch(0.2 0.006 70);
+  --secondary: oklch(0.23 0.006 65);
+  --secondary-foreground: oklch(0.95 0.006 85);
+  --muted: oklch(0.23 0.006 65);
+  --muted-foreground: oklch(0.72 0.008 80); /* 7.7:1 on dark */
+  --accent: oklch(0.23 0.006 65);
+  --accent-foreground: oklch(0.95 0.006 85);
+  --sepia: oklch(0.74 0.06 70); /* 8.2:1 on dark */
+  --sepia-foreground: oklch(0.2 0.006 70);
+  --ring: var(--sepia);
+  --destructive: oklch(0.72 0.12 28);
+  --border: oklch(0.32 0.007 65);
+  --input: oklch(0.6 0.008 75);
+}
+
+/* Full-bleed container: spans the whole viewport, margin comes from --gutter.
+   Reading widths are capped per element (ch), never here. */
+@utility wrap {
+  width: 100%;
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+@utility section-y {
+  padding-block: var(--space-section);
+}
+
+/* Small, widely tracked uppercase sans: eyebrows, nav, buttons, descriptors. */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* Photo frame: inset image with soft corners, no shadow. */
+@utility frame {
+  border-radius: var(--radius-frame);
+  overflow: hidden;
+}
+
+/* One black-and-white-with-sepia grade for every photo so mixed sources read as a set. */
+@utility photo-grade {
+  filter: grayscale(1) sepia(0.3) contrast(1.06) brightness(0.92);
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@utility kenburns {
+  animation: kenburns 3s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform;
+}
+
+/* Secondary links: text with a fine sepia underline (no filled button). */
+@utility link-rule {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.55em;
+  text-decoration-color: var(--sepia);
+  transition:
+    color 200ms ease-out,
+    text-decoration-color 200ms ease-out;
+  &:hover {
+    color: var(--sepia);
+  }
+}
+
+/* Label / value row separator. */
+@utility rule-dotted {
+  border-top: 1px dotted var(--border);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth; /* native fallback when Lenis is not running */
+    scroll-padding-top: var(--nav-h);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Lenis does the smoothing; native smooth scrolling on top would fight it. */
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  body {
+    @apply bg-background text-foreground text-base;
+    font-feature-settings: "kern", "liga";
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-synthesis: none; /* Prata has one weight and no italic: never fake it */
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in oklch, var(--sepia) 28%, transparent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
