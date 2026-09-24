@@ -25,7 +25,6 @@ export const bookCta = { label: "Book a Dinner", href: "#contact" } as const;
 
 export const hero = {
   headline: "Julio Juarez",
-  subline: "Private Dining",
   body: "Eighteen years leading Kansas City's finest kitchens, brought to a single table — built around you, not a menu.",
   secondaryCta: { label: "His Story", href: "#about" },
   image: "/hero.jpg",

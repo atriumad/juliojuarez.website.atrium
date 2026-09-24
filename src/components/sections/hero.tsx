@@ -27,14 +27,15 @@ export function Hero() {
 
         <div className="relative p-6 md:p-12">
           <Reveal delay={0.05} y={24}>
-            <h1 id="hero-title" className="max-w-[12ch] text-display">
+            {/* Mobile: scale the headline down so the photography stays visible. */}
+            <h1
+              id="hero-title"
+              className="max-w-[12ch] text-[clamp(2.25rem,1.75rem+5vw,4rem)] leading-[0.95] tracking-[-0.02em] sm:text-display"
+            >
               {hero.headline}
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="mt-3 font-display text-xl">{hero.subline}</p>
-          </Reveal>
-          <Reveal delay={0.35}>
             <p className="mt-6 max-w-[38ch] text-lg">{hero.body}</p>
           </Reveal>
           <Reveal delay={0.5}>
