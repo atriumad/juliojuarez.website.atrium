@@ -65,7 +65,7 @@ export function SiteNav() {
       )}
     >
       <div className="wrap flex h-full items-center justify-between gap-6">
-        <a href="#top" className="eyebrow shrink-0" aria-label={`${site.name} — ${site.descriptor}`}>
+        <a href="#top" className="eyebrow shrink-0" aria-label={`${site.mark} — ${site.name}`}>
           <span className="sm:hidden">{site.markShort}</span>
           <span className="hidden sm:inline">{site.mark}</span>
         </a>

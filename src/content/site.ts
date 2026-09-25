@@ -36,7 +36,7 @@ export const about = {
   paragraphs: [
     "Julio Juarez has spent nearly two decades leading kitchens across Kansas City — from his first executive chef post at Starkers in 2008 to his most recent role at Ocean Prime, part of the nationally recognized Cameron Mitchell Restaurants group.",
     "Along the way, he ran the kitchen at JJ's Restaurant, directed banquet and event dining at The Gallery Event Space, and led the rooftop kitchen at Prime Social. Every stop shares the same discipline: precise execution, a clean kitchen, and food that doesn't need to shout.",
-    "Private Dining is the next chapter — the same standard, brought down to a single table.",
+    "Private chef dining is the next chapter — the same standard, brought down to a single table.",
   ],
   timelineCaption: "Career timeline",
   timeline: [
@@ -48,7 +48,7 @@ export const about = {
   ],
   education: "B.A., Universidad Autónoma Benito Juárez de Oaxaca, Mexico",
   // Placeholder portrait — swap for confirmed photography before publishing.
-  image: "/_.jpeg",
+  image: "/julio-juarez-portrait.jpeg",
   imageAlt: "Portrait of Chef Julio Juarez",
 } as const;
 
@@ -86,7 +86,7 @@ export const philosophy = {
 
 export const contact = {
   headline: "Book a dinner",
-  body: "Private dining is by inquiry. Share a few details about the occasion, and Julio will follow up to build the evening around it.",
+  body: "Private chef dining in Kansas City is by inquiry. Share a few details about the occasion, and Julio will follow up to build the evening around it.",
   details: {
     location: "Kansas City, MO",
     // PENDING: confirm with Julio before publishing any number.

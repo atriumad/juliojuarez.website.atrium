@@ -21,9 +21,9 @@ const urbanist = Urbanist({
   display: "swap",
 });
 
-const title = "Julio Juarez — Private Dining | Kansas City";
+const title = "Private Chef in Kansas City | Julio Juarez Private Dining";
 const description =
-  "Private dining in Kansas City with Chef Julio Juarez. Eighteen years leading the city's finest kitchens, brought to a single table.";
+  "Private chef dining in Kansas City with Chef Julio Juarez. Eighteen years leading the city's finest kitchens, brought to a single table.";
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),

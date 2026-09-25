@@ -1,17 +1,22 @@
-import { hero, about, site } from "@/content/site";
+import { hero, about, contact, footer, site } from "@/content/site";
 import { getSiteUrl } from "@/lib/site-url";
 
-/** schema.org graph. Only facts confirmed in the client brief; no contact data. */
+/**
+ * schema.org graph. Only facts confirmed in the client brief. Contact fields
+ * (telephone, email, sameAs) are emitted only once they are set in
+ * content/site.ts, so nothing unconfirmed ever ships.
+ */
 export function buildStructuredData() {
-  const origin = getSiteUrl().toString();
-  const chefId = `${origin}#chef`;
+  const origin = getSiteUrl().origin;
+  const chefId = `${origin}/#chef`;
+  const { email, phone } = contact.details;
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": `${origin}#website`,
+        "@id": `${origin}/#website`,
         url: origin,
         name: `${site.name} — ${site.descriptor}`,
         inLanguage: "en-US",
@@ -33,10 +38,13 @@ export function buildStructuredData() {
           addressCountry: "US",
         },
         description: about.paragraphs[0],
+        ...(email && { email }),
+        ...(phone && { telephone: phone }),
+        ...(footer.instagram && { sameAs: [footer.instagram] }),
       },
       {
         "@type": "Service",
-        "@id": `${origin}#private-dining`,
+        "@id": `${origin}/#private-dining`,
         name: site.descriptor,
         serviceType: "Private chef dining",
         description: hero.body,

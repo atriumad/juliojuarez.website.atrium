@@ -38,22 +38,25 @@ export function Contact() {
 
         <dl className="mt-14 flex flex-wrap items-baseline justify-center gap-x-8 gap-y-3">
           {rows.map((row, i) => (
-            <Reveal key={row.label} y={0} delay={0.3 + i * 0.08}>
-              <div className="flex items-baseline gap-3">
-                <dt className="eyebrow text-muted-foreground">{row.label}</dt>
+            <Reveal
+              key={row.label}
+              y={0}
+              delay={0.3 + i * 0.08}
+              className="flex items-baseline gap-3"
+            >
+              <dt className="eyebrow text-muted-foreground">{row.label}</dt>
+              <dd className="flex items-baseline gap-3">
                 <span aria-hidden="true" className="text-border">
                   ·
                 </span>
-                <dd>
-                  {row.href ? (
-                    <a href={row.href} className="link-rule">
-                      {row.value}
-                    </a>
-                  ) : (
-                    row.value
-                  )}
-                </dd>
-              </div>
+                {row.href ? (
+                  <a href={row.href} className="link-rule">
+                    {row.value}
+                  </a>
+                ) : (
+                  row.value
+                )}
+              </dd>
             </Reveal>
           ))}
         </dl>

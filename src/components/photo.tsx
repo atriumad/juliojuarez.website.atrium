@@ -63,6 +63,7 @@ export function Photo({
           fill
           sizes={sizes}
           preload={preload}
+          fetchPriority={preload ? "high" : undefined}
           className={cn(grade && "photo-grade", "object-cover", settled && "kenburns")}
         />
       ) : null}
