@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef, type ReactNode } from "react";
 import { submitInquiry, type InquiryState } from "@/actions/inquiry";
 import type { InquiryField } from "@/lib/inquiry-schema";
 import { contact } from "@/content/site";
+import { trackEvent } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -54,6 +55,7 @@ export function InquiryForm({ idPrefix = "" }: { idPrefix?: string }) {
   useEffect(() => {
     if (state.status === "success") {
       successRef.current?.focus();
+      if (state.lead) trackEvent("generate_lead", { form: "private_dining_inquiry" });
     } else if (state.status === "error") {
       formRef.current
         ?.querySelector<HTMLElement>('[aria-invalid="true"]')

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Prata, Urbanist } from "next/font/google";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { MotionProvider } from "@/components/motion/provider";
+import { SiteAnalytics } from "@/components/site-analytics";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -39,6 +40,10 @@ export const metadata: Metadata = {
     url: "/",
   },
   twitter: { card: "summary_large_image", title, description },
+  // Google Search Console HTML-tag verification; omitted until the token is set.
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION && {
+    verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION },
+  }),
 };
 
 export const viewport: Viewport = {
@@ -57,6 +62,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <SmoothScroll />
         <MotionProvider>{children}</MotionProvider>
+        <SiteAnalytics />
       </body>
     </html>
   );

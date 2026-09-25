@@ -10,6 +10,8 @@ import {
 
 export type InquiryState = {
   status: "idle" | "success" | "error";
+  /** True only when a real inquiry was delivered (never for honeypot or dev skips). */
+  lead?: boolean;
   message?: string;
   fieldErrors?: Partial<Record<InquiryField, string>>;
   values?: Partial<Record<InquiryField, string>>;
@@ -89,5 +91,5 @@ export async function submitInquiry(
     return { status: "error", message: contact.form.error, values };
   }
 
-  return { status: "success" };
+  return { status: "success", lead: true };
 }

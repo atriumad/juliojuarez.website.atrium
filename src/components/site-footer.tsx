@@ -11,7 +11,9 @@ export function SiteFooter() {
         </p>
         <div className="mt-4 text-center md:mt-0 md:justify-self-end">
           <Button asChild variant="link" size="default">
-            <a href={bookCta.href}>{bookCta.label}</a>
+            <a href={bookCta.href} data-event="cta_click" data-label="book_dinner" data-location="footer">
+              {bookCta.label}
+            </a>
           </Button>
         </div>
       </div>

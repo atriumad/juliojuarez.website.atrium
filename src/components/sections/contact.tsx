@@ -4,11 +4,12 @@ import { Reveal } from "@/components/motion/reveal";
 
 export function Contact() {
   const rows = [
-    { label: "Location", value: contact.details.location, href: null },
+    { label: "Location", value: contact.details.location, href: null, track: null },
     {
       label: "Email",
       value: contact.details.email,
       href: contact.details.email ? `mailto:${contact.details.email}` : null,
+      track: "email",
     },
     {
       label: "Phone",
@@ -16,6 +17,7 @@ export function Contact() {
       href: contact.details.phone
         ? `tel:${contact.details.phone.replace(/[^+\d]/g, "")}`
         : null,
+      track: "phone",
     },
   ].filter((r) => r.value);
 
@@ -50,7 +52,13 @@ export function Contact() {
                   ·
                 </span>
                 {row.href ? (
-                  <a href={row.href} className="link-rule">
+                  <a
+                    href={row.href}
+                    className="link-rule"
+                    data-event="contact_click"
+                    data-label={row.track ?? undefined}
+                    data-location="contact"
+                  >
                     {row.value}
                   </a>
                 ) : (

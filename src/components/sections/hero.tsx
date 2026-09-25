@@ -41,7 +41,9 @@ export function Hero() {
           <Reveal delay={0.5}>
             <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
               <Button asChild size="lg">
-                <a href={bookCta.href}>{bookCta.label}</a>
+                <a href={bookCta.href} data-event="cta_click" data-label="book_dinner" data-location="hero">
+                  {bookCta.label}
+                </a>
               </Button>
               <a href={hero.secondaryCta.href} className="eyebrow link-rule">
                 {hero.secondaryCta.label}

@@ -87,7 +87,9 @@ export function SiteNav() {
 
         <div className="flex items-center gap-2">
           <Button asChild size="sm" className="hidden md:inline-flex">
-            <a href={bookCta.href}>{bookCta.label}</a>
+            <a href={bookCta.href} data-event="cta_click" data-label="book_dinner" data-location="nav">
+              {bookCta.label}
+            </a>
           </Button>
 
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
@@ -130,6 +132,9 @@ export function SiteNav() {
                   <Button asChild size="lg">
                     <a
                       href={bookCta.href}
+                      data-event="cta_click"
+                      data-label="book_dinner"
+                      data-location="mobile_menu"
                       onClick={(e) => goTo(e, bookCta.href)}
                     >
                       {bookCta.label}
