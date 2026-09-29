@@ -24,6 +24,7 @@ export const navLinks = [
 export const bookCta = { label: "Book a Dinner", href: "#contact" } as const;
 
 export const hero = {
+  eyebrow: "Private Chef · Kansas City",
   headline: "Julio Juarez",
   body: "Eighteen years leading Kansas City's finest kitchens, brought to a single table — built around you, not a menu.",
   secondaryCta: { label: "His Story", href: "#about" },
@@ -102,6 +103,8 @@ export const contact = {
     pending: "Sending…",
     success: "Your inquiry has been received.",
     successNote: "Julio will follow up to build the evening around it.",
+    // PENDING: confirm a real response time with Julio (e.g. "within 48 hours"). Hidden while null.
+    responseNote: null as string | null,
     error: "We couldn't send your inquiry just now. Please try again in a moment.",
   },
 } as const;

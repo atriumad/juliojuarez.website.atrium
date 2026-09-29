@@ -17,7 +17,7 @@ export type InquiryState = {
   values?: Partial<Record<InquiryField, string>>;
 };
 
-const FIELDS: InquiryField[] = ["name", "email", "phone", "date", "details"];
+const FIELDS: InquiryField[] = ["name", "email", "phone", "date", "guests", "location", "details"];
 
 function readField(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -30,6 +30,8 @@ function buildText(data: InquiryInput) {
     `Email: ${data.email}`,
     `Phone: ${data.phone || "—"}`,
     `Preferred date: ${data.date || "—"}`,
+    `Guests: ${data.guests || "—"}`,
+    `Location: ${data.location || "—"}`,
     "",
     "Occasion & details:",
     data.details || "—",

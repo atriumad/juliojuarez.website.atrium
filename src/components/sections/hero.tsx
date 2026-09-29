@@ -22,7 +22,7 @@ export function Hero() {
         {/* Legibility scrim for text over unknown photography. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-linear-to-t from-[oklch(0.12_0.005_65/0.65)] via-transparent to-transparent"
+          className="absolute inset-0 bg-linear-to-t from-[oklch(0.12_0.005_65/0.75)] via-[oklch(0.12_0.005_65/0.5)] via-50% to-transparent"
         />
 
         <div className="relative p-6 md:p-12">
@@ -32,6 +32,9 @@ export function Hero() {
               id="hero-title"
               className="max-w-[12ch] text-[clamp(2.25rem,1.75rem+5vw,4rem)] leading-[0.95] tracking-[-0.02em] sm:text-display"
             >
+              <span className="eyebrow mb-5 block whitespace-nowrap text-foreground">
+                {hero.eyebrow}
+              </span>
               {hero.headline}
             </h1>
           </Reveal>

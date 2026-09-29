@@ -5,6 +5,8 @@ export const inquirySchema = z.object({
   email: z.string().trim().pipe(z.email("Please enter a valid email address.")),
   phone: z.string().trim().max(40),
   date: z.string().trim().max(60),
+  guests: z.string().trim().max(30),
+  location: z.string().trim().max(120),
   details: z.string().trim().max(2000, "Please keep this under 2,000 characters."),
 });
 

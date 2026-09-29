@@ -5,6 +5,7 @@ import { Menu } from "lucide-react";
 import { cn } from "cn";
 import { bookCta, navLinks, site } from "@/content/site";
 import { Button } from "@/components/ui/button";
+import { LogoMonogram } from "@/components/logo";
 import { scrollToHash, setScrollLocked } from "@/components/smooth-scroll";
 import {
   Sheet,
@@ -65,9 +66,13 @@ export function SiteNav() {
       )}
     >
       <div className="wrap flex h-full items-center justify-between gap-6">
-        <a href="#top" className="eyebrow shrink-0" aria-label={`${site.mark} — ${site.name}`}>
-          <span className="sm:hidden">{site.markShort}</span>
-          <span className="hidden sm:inline">{site.mark}</span>
+        <a
+          href="#top"
+          className="flex shrink-0 items-center gap-3"
+          aria-label={`${site.mark} — ${site.name}`}
+        >
+          <LogoMonogram className="h-9 w-auto" />
+          <span className="eyebrow hidden sm:inline">{site.descriptor}</span>
         </a>
 
         <nav aria-label="Primary" className="hidden md:block">

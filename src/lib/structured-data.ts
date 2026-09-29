@@ -10,6 +10,7 @@ export function buildStructuredData() {
   const origin = getSiteUrl().origin;
   const chefId = `${origin}/#chef`;
   const { email, phone } = contact.details;
+  const image = `${origin}${about.image}`;
 
   return {
     "@context": "https://schema.org",
@@ -27,6 +28,7 @@ export function buildStructuredData() {
         name: site.name,
         jobTitle: "Executive Chef",
         url: origin,
+        image,
         alumniOf: {
           "@type": "CollegeOrUniversity",
           name: "Universidad Autónoma Benito Juárez de Oaxaca",
@@ -48,6 +50,7 @@ export function buildStructuredData() {
         name: site.descriptor,
         serviceType: "Private chef dining",
         description: hero.body,
+        image,
         provider: { "@id": chefId },
         areaServed: { "@type": "City", name: site.city },
       },

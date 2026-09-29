@@ -15,6 +15,11 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    // Photos are versioned by filename, so a long cache is safe.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

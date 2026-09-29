@@ -112,13 +112,29 @@ export function InquiryForm({ idPrefix = "" }: { idPrefix?: string }) {
         <Input {...a11y("phone")} type="tel" autoComplete="tel" />
       </Field>
       <Field id="date" label="Preferred date" optional error={errors.date}>
-        <Input {...a11y("date")} type="text" placeholder="October 12" />
+        <Input {...a11y("date")} type="text" placeholder="October 12, 2026 — or flexible" />
+      </Field>
+      <Field id="guests" label="Guests" optional error={errors.guests}>
+        <Input
+          {...a11y("guests")}
+          type="text"
+          inputMode="numeric"
+          placeholder="Number of guests"
+        />
+      </Field>
+      <Field id="location" label="Where" optional error={errors.location}>
+        <Input
+          {...a11y("location")}
+          type="text"
+          autoComplete="address-level2"
+          placeholder="City or neighborhood"
+        />
       </Field>
       <div className="md:col-span-2">
         <Field id="details" label="Occasion & details" optional error={errors.details}>
           <Textarea
             {...a11y("details")}
-            placeholder="The occasion, guest count, and any preferences."
+            placeholder="The occasion, dietary needs, and anything that would make the evening yours."
             maxLength={2000}
           />
         </Field>
@@ -138,10 +154,13 @@ export function InquiryForm({ idPrefix = "" }: { idPrefix?: string }) {
             {state.message}
           </p>
         ) : null}
-        <div>
+        <div className="flex flex-col items-center gap-3 md:items-start">
           <Button type="submit" size="lg" disabled={pending}>
             {pending ? contact.form.pending : contact.form.submit}
           </Button>
+          {contact.form.responseNote ? (
+            <p className="text-sm text-muted-foreground">{contact.form.responseNote}</p>
+          ) : null}
         </div>
       </div>
     </form>

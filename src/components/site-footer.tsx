@@ -1,11 +1,14 @@
 import { bookCta, footer, site } from "@/content/site";
 import { Button } from "@/components/ui/button";
+import { LogoHorizontal } from "@/components/logo";
 
 export function SiteFooter() {
   return (
     <footer className="wrap pb-(--gutter) pt-8">
       <div className="border-t border-border pt-6 md:grid md:grid-cols-3 md:items-center">
-        <p className="text-center font-display text-xl md:text-left">{site.name}</p>
+        <div className="flex justify-center md:justify-start">
+          <LogoHorizontal className="h-20 w-auto" title={`${site.name} — ${site.descriptor} Chef`} />
+        </div>
         <p className="mt-4 text-center text-sm text-muted-foreground md:mt-0 md:justify-self-center">
           {footer.finePrint}
         </p>
