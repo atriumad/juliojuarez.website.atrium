@@ -1,5 +1,6 @@
 "use server";
 
+import { headers } from "next/headers";
 import { Resend } from "resend";
 import { contact } from "@/content/site";
 import {
@@ -7,6 +8,8 @@ import {
   type InquiryField,
   type InquiryInput,
 } from "@/lib/inquiry-schema";
+import { filledTooFast } from "@/lib/bot-check";
+import { allow } from "@/lib/rate-limit";
 
 export type InquiryState = {
   status: "idle" | "success" | "error";
@@ -22,6 +25,16 @@ const FIELDS: InquiryField[] = ["name", "email", "phone", "date", "guests", "loc
 function readField(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" ? value : "";
+}
+
+// Per client: 5 valid inquiries per hour is far above any real person.
+const RATE_MAX = 5;
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+
+async function clientKey() {
+  const h = await headers();
+  const forwarded = h.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwarded || h.get("x-real-ip") || "unknown";
 }
 
 function buildText(data: InquiryInput) {
@@ -47,6 +60,11 @@ export async function submitInquiry(
     return { status: "success" };
   }
 
+  // Filled in faster than a person can type: same treatment as the honeypot.
+  if (filledTooFast(readField(formData, "elapsed"))) {
+    return { status: "success" };
+  }
+
   const values = Object.fromEntries(
     FIELDS.map((f) => [f, readField(formData, f)]),
   ) as Record<InquiryField, string>;
@@ -59,6 +77,10 @@ export async function submitInquiry(
       fieldErrors[key] ??= issue.message;
     }
     return { status: "error", fieldErrors, values };
+  }
+
+  if (!allow(await clientKey(), RATE_MAX, RATE_WINDOW_MS)) {
+    return { status: "error", message: contact.form.rateLimited, values };
   }
 
   const apiKey = process.env.RESEND_API_KEY;

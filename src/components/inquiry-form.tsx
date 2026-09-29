@@ -50,6 +50,13 @@ export function InquiryForm({ idPrefix = "" }: { idPrefix?: string }) {
   const [state, formAction, pending] = useActionState(submitInquiry, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const successRef = useRef<HTMLDivElement>(null);
+  const elapsedRef = useRef<HTMLInputElement>(null);
+  const shownAt = useRef(0);
+
+  // Start of the fill-in clock (hidden field is stamped on submit).
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   // Move focus to the confirmation, or to the first invalid field.
   useEffect(() => {
@@ -93,6 +100,11 @@ export function InquiryForm({ idPrefix = "" }: { idPrefix?: string }) {
     <form
       ref={formRef}
       action={formAction}
+      onSubmitCapture={() => {
+        if (elapsedRef.current) {
+          elapsedRef.current.value = String(Date.now() - shownAt.current);
+        }
+      }}
       noValidate
       className="relative grid gap-x-10 gap-y-8 md:grid-cols-2"
     >
@@ -147,6 +159,8 @@ export function InquiryForm({ idPrefix = "" }: { idPrefix?: string }) {
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
+
+      <input ref={elapsedRef} type="hidden" name="elapsed" defaultValue="" />
 
       <div className="flex flex-col items-center gap-4 md:col-span-2 md:items-start">
         {state.status === "error" && state.message ? (

@@ -106,6 +106,7 @@ export const contact = {
     // PENDING: confirm a real response time with Julio (e.g. "within 48 hours"). Hidden while null.
     responseNote: null as string | null,
     error: "We couldn't send your inquiry just now. Please try again in a moment.",
+    rateLimited: "You've sent several inquiries in a short time. Please try again later.",
   },
 } as const;
 
