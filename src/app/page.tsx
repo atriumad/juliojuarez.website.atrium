@@ -2,6 +2,7 @@ import { JsonLd } from "@/components/json-ld";
 import { buildStructuredData } from "@/lib/structured-data";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { FloatingCta } from "@/components/floating-cta";
 import { Hero } from "@/components/sections/hero";
 import { About } from "@/components/sections/about";
 import { Gallery } from "@/components/sections/gallery";
@@ -21,6 +22,7 @@ export default function Home() {
         <Contact />
       </main>
       <SiteFooter />
+      <FloatingCta />
     </>
   );
 }

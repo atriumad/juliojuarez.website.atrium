@@ -274,3 +274,32 @@
     }
   }
 }
+
+/*
+ * Gallery drift. Where the browser supports scroll-driven animations the rows
+ * move on the compositor (no JS per scroll event, so no lag on phones).
+ * Elsewhere the component falls back to a JS-driven transform.
+ */
+@keyframes drift {
+  from {
+    transform: translateX(var(--drift-from));
+  }
+  to {
+    transform: translateX(var(--drift-to));
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift-scope {
+      view-timeline: --gallery block;
+    }
+
+    .drift-native {
+      animation: drift linear both;
+      animation-timeline: --gallery;
+      animation-range: cover;
+      will-change: transform;
+    }
+  }
+}

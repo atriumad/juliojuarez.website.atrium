@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   motion,
   useInView,
@@ -35,7 +35,7 @@ function Frame({
   index: number;
   className: string;
   onOpen: (index: number) => void;
-  /** Filler copy so wide screens never run out of photos: hidden from assistive tech. */
+  /** Filler copy so wide screens never run out of photos: hidden from assistive tech and from phones. */
   copy?: boolean;
 }) {
   const ref = useRef<HTMLLIElement>(null);
@@ -46,7 +46,9 @@ function Frame({
     <li
       ref={ref}
       aria-hidden={copy ? true : undefined}
-      className={`group relative aspect-[4/5] flex-none overflow-hidden rounded-[2px] bg-(--photo-tone) ${className}`}
+      className={`group relative aspect-[4/5] flex-none overflow-hidden rounded-[2px] bg-(--photo-tone) ${
+        copy ? "max-md:hidden " : ""
+      }${className}`}
     >
       <button
         type="button"
@@ -63,7 +65,7 @@ function Frame({
           alt={copy ? "" : photo.alt}
           fill
           sizes="(min-width: 768px) 360px, 220px"
-          className={`object-cover transition-[filter] duration-1000 group-hover:[filter:none] ${
+          className={`object-cover transition-[filter] duration-500 group-hover:[filter:none] ${
             centered ? "" : "photo-grade"
           }`}
         />
@@ -72,27 +74,23 @@ function Frame({
   );
 }
 
-function Row({
-  photos,
-  offset,
-  progress,
-  from,
-  to,
-  still,
-  onOpen,
-}: {
+const noopSubscribe = () => () => {};
+
+type RowProps = {
   photos: readonly Photo[];
   offset: number;
-  progress: MotionValue<number>;
   from: string;
   to: string;
-  still: boolean;
+  /** Phones show one pass of the row, so the same travel needs a larger percentage. */
+  mobileFrom: string;
+  mobileTo: string;
   onOpen: (index: number) => void;
-}) {
-  const x = useTransform(progress, [0, 1], still ? ["0%", "0%"] : [from, to]);
+};
+
+function RowFrames({ photos, offset, onOpen }: Pick<RowProps, "photos" | "offset" | "onOpen">) {
+  // Two passes of the row: at 2560px+ one pass ends before the screen does.
   return (
-    <motion.ul style={{ x }} className="flex w-max items-start gap-5 md:gap-8">
-      {/* Two passes of the row: at 2560px+ one pass ends before the screen does. */}
+    <>
       {[0, 1].flatMap((pass) =>
         photos.map((p, i) => {
           const n = pass * photos.length + i;
@@ -108,7 +106,60 @@ function Row({
           );
         }),
       )}
+    </>
+  );
+}
+
+const rowClass = "flex w-max items-start gap-5 md:gap-8";
+
+/** Compositor-driven: CSS scroll-driven animation (see .drift-native). */
+function NativeRow({ from, to, mobileFrom, mobileTo, ...rest }: RowProps) {
+  return (
+    <ul
+      className={`drift-native ${rowClass} [--drift-from:var(--m-from)] [--drift-to:var(--m-to)] md:[--drift-from:var(--d-from)] md:[--drift-to:var(--d-to)]`}
+      style={
+        {
+          "--m-from": mobileFrom,
+          "--m-to": mobileTo,
+          "--d-from": from,
+          "--d-to": to,
+        } as React.CSSProperties
+      }
+    >
+      <RowFrames {...rest} />
+    </ul>
+  );
+}
+
+/** Fallback for browsers without scroll-driven animations. */
+function JsRow({
+  progress,
+  from,
+  to,
+  still,
+  ...rest
+}: RowProps & { progress: MotionValue<number>; still: boolean }) {
+  const x = useTransform(progress, [0, 1], still ? ["0%", "0%"] : [from, to]);
+  return (
+    <motion.ul style={{ x }} className={rowClass}>
+      <RowFrames {...rest} />
     </motion.ul>
+  );
+}
+
+function JsRows({ rows }: { rows: RowProps[] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const still = useReducedMotion() ?? false;
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  return (
+    <div ref={ref} className="flex flex-col gap-6 md:gap-10">
+      {rows.map((row, r) => (
+        <JsRow key={r} {...row} progress={scrollYProgress} still={still} />
+      ))}
+    </div>
   );
 }
 
@@ -216,41 +267,55 @@ function Lightbox({
  * viewer. With reduced motion the rows stay put and become a swipeable strip.
  */
 export function Gallery() {
-  const ref = useRef<HTMLElement>(null);
-  const still = useReducedMotion() ?? false;
+  // Default to the compositor path (also what SSR renders); browsers without
+  // scroll-driven animations switch to the JS path after mount.
+  const native = useSyncExternalStore(
+    noopSubscribe,
+    () => CSS.supports("animation-timeline", "view()"),
+    () => true,
+  );
   const [open, setOpen] = useState<number | null>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const close = useCallback(() => setOpen(null), []);
+
+  const rows: RowProps[] = [
+    {
+      photos: gallery.rows[0],
+      offset: 0,
+      from: "0%",
+      to: "-17%",
+      mobileFrom: "0%",
+      mobileTo: "-34%",
+      onOpen: setOpen,
+    },
+    {
+      photos: gallery.rows[1],
+      offset: gallery.rows[0].length,
+      from: "-16%",
+      to: "0%",
+      mobileFrom: "-32%",
+      mobileTo: "0%",
+      onOpen: setOpen,
+    },
+  ];
+
   return (
     <section
-      ref={ref}
       id="gallery"
       aria-labelledby="gallery-title"
-      className="section-y pb-0! overflow-hidden motion-reduce:overflow-x-auto"
+      className="drift-scope section-y pb-0! overflow-hidden motion-reduce:overflow-x-auto"
     >
       <h2 id="gallery-title" className="sr-only">
         {gallery.headline}
       </h2>
-      <div className="flex flex-col gap-6 md:gap-10">
-        <Row
-          photos={gallery.rows[0]}
-          offset={0}
-          progress={scrollYProgress}
-          from="0%"
-          to="-17%"
-          still={still}
-          onOpen={setOpen}
-        />
-        <Row
-          photos={gallery.rows[1]}
-          offset={gallery.rows[0].length}
-          progress={scrollYProgress}
-          from="-16%"
-          to="0%"
-          still={still}
-          onOpen={setOpen}
-        />
-      </div>
+      {native ? (
+        <div className="flex flex-col gap-6 md:gap-10">
+          {rows.map((row, r) => (
+            <NativeRow key={r} {...row} />
+          ))}
+        </div>
+      ) : (
+        <JsRows rows={rows} />
+      )}
       <Lightbox index={open} onChange={setOpen} onClose={close} />
     </section>
   );
