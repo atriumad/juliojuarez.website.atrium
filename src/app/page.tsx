@@ -4,7 +4,7 @@ import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { Hero } from "@/components/sections/hero";
 import { About } from "@/components/sections/about";
-import { Dishes } from "@/components/sections/dishes";
+import { Gallery } from "@/components/sections/gallery";
 import { Philosophy } from "@/components/sections/philosophy";
 import { Contact } from "@/components/sections/contact";
 
@@ -16,8 +16,8 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <Dishes />
         <Philosophy />
+        <Gallery />
         <Contact />
       </main>
       <SiteFooter />

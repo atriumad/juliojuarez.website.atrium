@@ -16,8 +16,8 @@ export const site = {
 
 export const navLinks = [
   { label: "About", href: "#about" },
-  { label: "Dishes", href: "#dishes" },
   { label: "Philosophy", href: "#philosophy" },
+  { label: "Gallery", href: "#gallery" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
@@ -27,7 +27,7 @@ export const hero = {
   headline: "Julio Juarez",
   body: "Eighteen years leading Kansas City's finest kitchens, brought to a single table — built around you, not a menu.",
   secondaryCta: { label: "His Story", href: "#about" },
-  image: "/hero.jpg",
+  image: "/images/hero/julio-juarez-hero-kitchen.jpg",
   imageAlt: "Chef Julio Juarez at work in the kitchen",
 } as const;
 
@@ -48,33 +48,37 @@ export const about = {
   ],
   education: "B.A., Universidad Autónoma Benito Juárez de Oaxaca, Mexico",
   // Placeholder portrait — swap for confirmed photography before publishing.
-  image: "/julio-juarez-portrait.jpeg",
+  image: "/images/chef/julio-juarez-portrait.jpg",
   imageAlt: "Portrait of Chef Julio Juarez",
 } as const;
 
-export const dishes = {
-  headline: "From the kitchen",
-  subhead:
-    "A preview of the kind of plates Julio brings to a private table — each menu is built around the occasion.",
-  // Placeholder plates — dishes and photos to be confirmed before publishing.
-  items: [
-    {
-      name: "Seared Diver Scallop",
-      description: "Brown butter, blood orange, charred herb oil.",
-      image: "/dish-scallop.jpeg",
-    },
-    {
-      name: "Dry-Aged Ribeye",
-      description: "Roasted bone marrow, red wine jus, fingerling potato.",
-      image: "/dish-ribeye.jpeg",
-    },
-    {
-      name: "Stone Fruit & Burrata",
-      description: "Basil, aged balsamic, toasted pistachio.",
-      image: "/dish-burrata.jpeg",
-    },
+const img = (path: string) => `/images/${path}.jpg`;
+
+export const gallery = {
+  // Visually-hidden heading: the section shows photos only.
+  headline: "Gallery",
+  // Two rows drifting in opposite directions. Order alternates plates and Julio
+  // so neither reads as a run of one subject.
+  rows: [
+    [
+      { src: img("dishes/ribeye-lobster-board"), alt: "Sliced ribeye and lobster tail on a wooden board with three sauces" },
+      { src: img("kitchen/julio-juarez-plating-01"), alt: "Julio Juarez plating dishes in the kitchen" },
+      { src: img("dishes/rack-of-lamb"), alt: "Herb-crusted rack of lamb with red cabbage and jus" },
+      { src: img("kitchen/julio-juarez-hosting-table"), alt: "Julio Juarez serving guests at the table" },
+      { src: img("dishes/tartare-plate"), alt: "Tartare finished with edible flowers in a dark bowl" },
+      { src: img("kitchen/julio-juarez-kitchen-team-01"), alt: "Julio Juarez working with a fellow chef at the pass" },
+      { src: img("dishes/bread-pudding-dessert"), alt: "Bread pudding dessert with ice cream and caramel" },
+      { src: img("kitchen/julio-juarez-plating-02"), alt: "Julio Juarez plating in a professional kitchen" },
+    ],
+    [
+      { src: img("chef/julio-juarez-kitchen-portrait-01"), alt: "Chef Julio Juarez with arms crossed in the kitchen" },
+      { src: img("dishes/lobster-tail-sauces"), alt: "Roasted lobster tail with dipping sauces" },
+      { src: img("kitchen/julio-juarez-molcajete"), alt: "Julio Juarez grinding with a molcajete" },
+      { src: img("chef/julio-juarez-kitchen-portrait-02"), alt: "Portrait of Chef Julio Juarez in his kitchen" },
+      { src: img("kitchen/julio-juarez-kitchen-team-02"), alt: "Julio Juarez preparing food alongside a colleague" },
+      { src: img("kitchen/julio-juarez-plating-hands"), alt: "Hands carrying a freshly plated dish" },
+    ],
   ],
-  footnote: "Sample plates shown for direction — final selections to be confirmed.",
 } as const;
 
 export const philosophy = {
@@ -105,7 +109,7 @@ export const contact = {
 export const footer = {
   links: [
     { label: "About", href: "#about" },
-    { label: "Dishes", href: "#dishes" },
+    { label: "Gallery", href: "#gallery" },
     { label: "Book a Dinner", href: "#contact" },
   ],
   // PENDING: real Instagram URL. Hidden while null.

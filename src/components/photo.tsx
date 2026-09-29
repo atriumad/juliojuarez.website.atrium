@@ -17,7 +17,7 @@ type PhotoProps = {
  * Framed photo. With no `src` it renders a flat warm-dark placeholder so the
  * layout is final before real photography arrives. Real images get the shared
  * warm-monochrome grade unless `grade={false}` (used where natural color
- * matters, e.g. the plates in Dishes).
+ * matters, e.g. plates).
  */
 export function Photo({
   src,
