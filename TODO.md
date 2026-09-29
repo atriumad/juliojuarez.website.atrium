@@ -18,8 +18,8 @@ Leyenda: **[Tú]** lo haces tú · **[Cliente]** depende de Julio · **[Claude]*
 ## 1. Decisiones abiertas (definir antes de publicar)
 
 ### Con el cliente (Julio)
-- [ ] **[Cliente]** Email donde llegan las consultas (`INQUIRY_TO_EMAIL`).
-- [ ] **[Cliente]** Teléfono, WhatsApp y/o Instagram públicos. Hoy la única vía de contacto es el formulario. Al llenar `contact.details` y `footer.instagram` aparecen solos en la página y en el schema.
+- [x] **[Cliente]** Email donde llegan las consultas: `info@chefjuliojuarez.com` (usar como `INQUIRY_TO_EMAIL`). Ya se muestra también en la sección Contact y en el schema.
+- [ ] **[Cliente]** Teléfono, WhatsApp y/o Instagram públicos. Hoy las vías de contacto son el formulario y el correo. Al llenar `contact.details.phone` y `footer.instagram` aparecen solos en la página y en el schema.
 - [ ] **[Cliente]** Aprobar la cita de Philosophy (`philosophy.quote`): se publica a su nombre.
 - [ ] **[Cliente]** Retrato del About en alta resolución. El actual es 732×1024 px y se ve borroso. Lo ideal es el original de la chaqueta rosa, mínimo 1600×2000, sin comprimir. Al copiarlo sobre `public/images/chef/julio-juarez-portrait.jpg` no hay que tocar código.
 - [ ] **[Cliente]** Permisos de las fotos: los invitados de `julio-juarez-hosting-table.jpg` y los colegas de las fotos de equipo salen identificables. Confirmar autorización de publicación y crédito o licencia del fotógrafo.
@@ -40,7 +40,7 @@ Leyenda: **[Tú]** lo haces tú · **[Cliente]** depende de Julio · **[Claude]*
 ## 2. Bloqueantes técnicos para que el formulario funcione
 
 - [ ] **[Tú]** Confirmar que el repo `atriumad/juliojuarez.website.atrium` está conectado en Vercel (URL final `juliojuarez.vercel.app`). El código ya está en GitHub.
-- [ ] **[Tú]** Cuenta de Resend con **un** dominio verificado como remitente (SPF + DKIM). Sirve el de la agencia, idealmente un subdominio (`mail.tudominio.com`): el destinatario (el correo de Julio) no necesita verificación ni ser del mismo dominio. Plan gratis: 3 dominios, 3,000 correos/mes, 100/día. Sin dominio solo funciona `onboarding@resend.dev`, y únicamente hacia el correo de tu propia cuenta (vale para probar, no para producción). Cuando Julio tenga dominio propio, basta cambiar `INQUIRY_FROM_EMAIL`.
+- [ ] **[Tú]** Resend: verificar como remitente el dominio del cliente `chefjuliojuarez.com` (mejor opción: enviar desde `inquiries@chefjuliojuarez.com`) o, si no hay acceso al DNS, un subdominio de la agencia (`mail.tudominio.com`). El destinatario no necesita verificación. Plan gratis: 3 dominios, 3,000 correos/mes, 100/día. Sin dominio solo funciona `onboarding@resend.dev`, y únicamente hacia el correo de tu cuenta (sirve para probar, no para producción). En el DNS de Hostinger, Resend añade sus registros DKIM y un subdominio `send.` propio: **no toca** el SPF ni los MX del correo actual.
 - [ ] **[Tú]** Variables en Vercel (Production y Preview): `RESEND_API_KEY`, `INQUIRY_TO_EMAIL`, `INQUIRY_FROM_EMAIL`. Si falta alguna, el formulario da error en producción a propósito, para no perder consultas en silencio.
 - [ ] **[Tú]** Enviar una consulta real y confirmar que llega el correo, con los campos nuevos (invitados y lugar).
 
@@ -54,7 +54,7 @@ Leyenda: **[Tú]** lo haces tú · **[Cliente]** depende de Julio · **[Claude]*
 
 ## 4. SEO y presencia
 
-- [ ] **[Tú]** Dominio propio. `juliojuarez.vercel.app` es un subdominio compartido sin autoridad: es el mayor límite para posicionar. Al tenerlo: poner `NEXT_PUBLIC_SITE_URL`, redirigir el dominio de Vercel, reenviar el sitemap en Search Console y actualizar el remitente de Resend.
+- [ ] **[Tú + Cliente]** Conectar `chefjuliojuarez.com` al sitio. Estado (revisado 2026-09-29): registrado el 2026-09-23 en Hostinger, DNS en parking (`dns-parking.com`), correo ya activo (MX y SPF de Hostinger). Pasos: (1) en Vercel, Settings → Domains, añadir `chefjuliojuarez.com` y `www`; (2) en el DNS de Hostinger, cambiar el registro A del dominio raíz al que indique Vercel y el `www` a su CNAME, **sin borrar los MX ni el SPF** (si se borran o se cambian los nameservers, el correo deja de funcionar); (3) poner `NEXT_PUBLIC_SITE_URL=https://chefjuliojuarez.com` en Vercel; (4) redirigir `juliojuarez.vercel.app` al dominio nuevo; (5) reenviar el sitemap en Search Console con la propiedad nueva; (6) actualizar el remitente de Resend si cambia. Es el mayor límite de SEO, porque `vercel.app` es un subdominio compartido sin autoridad.
 - [ ] **[Tú]** Google Business Profile como negocio de área de servicio en Kansas City (lo que más mueve el SEO local).
 - [ ] **[Cliente]** URL de Instagram y otras redes: alimentan `sameAs` del JSON-LD.
 - [ ] **[Claude]** Con el contenido del FAQ: sección nueva, schema `FAQPage` y, si hace falta, páginas por ocasión (aniversario, cumpleaños, cena en casa).

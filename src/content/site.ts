@@ -94,8 +94,8 @@ export const contact = {
   body: "Private chef dining in Kansas City is by inquiry. Share a few details about the occasion, and Julio will follow up to build the evening around it.",
   details: {
     location: "Kansas City, MO",
+    email: "info@chefjuliojuarez.com" as string | null,
     // PENDING: confirm with Julio before publishing any number.
-    email: null as string | null,
     phone: null as string | null,
   },
   form: {
