@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect } from "react";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GA_ID, initGA, loadGA, trackEvent } from "@/lib/analytics";
 
 /**
- * Traffic + performance + engagement measurement for the whole site.
+ * Traffic + engagement measurement for the whole site (Google only).
  *
- * - Vercel Analytics / Speed Insights: cookieless pageviews and real-user
- *   Core Web Vitals (enable both in the Vercel project dashboard).
- * - GA4: only when NEXT_PUBLIC_GA_ID is set; script loads after first interaction.
+ * - GA4: only when NEXT_PUBLIC_GA_ID is set; the script loads after the first
+ *   interaction or a short delay. Real-user Core Web Vitals come from Search
+ *   Console (CrUX), so no extra script is needed for them.
  * - Click tracking is declarative: any element with data-event (plus optional
  *   data-label / data-location) reports a click; no per-component wiring.
  * - `section_view` fires once per section the first time it is meaningfully
@@ -18,8 +16,9 @@ import { GA_ID, initGA, loadGA, trackEvent } from "@/lib/analytics";
  */
 export function SiteAnalytics() {
   // gtag.js is heavy on the main thread. Queue the config now, but fetch the
-  // script only on the first interaction (or after 6s), so it never competes
-  // with LCP/TBT. Vercel Analytics covers total traffic, including quick exits.
+  // script only on the first interaction (or after 3s), so it never competes
+  // with LCP. The timer keeps quick visits that never interact from going
+  // uncounted now that GA4 is the only source of traffic numbers.
   useEffect(() => {
     if (!GA_ID) return;
     initGA();
@@ -29,7 +28,7 @@ export function SiteAnalytics() {
       window.clearTimeout(timer);
       loadGA();
     };
-    const timer = window.setTimeout(start, 6000);
+    const timer = window.setTimeout(start, 3000);
     events.forEach((name) =>
       window.addEventListener(name, start, { once: true, passive: true }),
     );
@@ -73,10 +72,5 @@ export function SiteAnalytics() {
     };
   }, []);
 
-  return (
-    <>
-      <Analytics />
-      <SpeedInsights />
-    </>
-  );
+  return null;
 }

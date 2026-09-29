@@ -9,7 +9,7 @@ Leyenda: **[Tú]** lo haces tú · **[Cliente]** depende de Julio · **[Claude]*
 |---|---|
 | Diseño y contenido visual | Listo: hero, About, Philosophy, galería, logos, favicon, OG, botón flotante móvil |
 | SEO técnico y accesibilidad | Listo (Lighthouse móvil: SEO 100, Accesibilidad 100, Best Practices 96) |
-| Analítica | Código listo; falta activar GA4, Vercel Analytics y Search Console |
+| Analítica | Solo Google (GA4 + Search Console). Código listo; falta crear la propiedad GA4 y Search Console |
 | Formulario | **No puede enviar en producción** hasta configurar Resend y el email de Julio |
 | Contenido que decide el cliente | Faltan datos de contacto, textos aprobados, retrato y permisos de fotos |
 
@@ -47,10 +47,9 @@ Leyenda: **[Tú]** lo haces tú · **[Cliente]** depende de Julio · **[Claude]*
 ## 3. Analítica (el sitio no mide nada hasta hacer esto)
 
 - [ ] **[Tú]** Crear propiedad GA4 y poner `NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX` en Vercel.
-- [ ] **[Tú]** Activar Analytics y Speed Insights en el proyecto de Vercel.
 - [ ] **[Tú]** En GA4, marcar `generate_lead` como evento clave (conversión).
 - [ ] **[Tú]** Search Console: añadir la propiedad (método "etiqueta HTML"), guardar el token en `NEXT_PUBLIC_GSC_VERIFICATION` y enviar `/sitemap.xml`.
-- [ ] **[Cliente]** Decidir si acepta el costo de rendimiento de GA4 en laboratorio (móvil 85-91 → 71-83). Alternativa: no poner el ID y usar solo Vercel Analytics + Search Console.
+- [ ] **[Cliente]** Decidir si acepta el costo de rendimiento de GA4 en laboratorio (móvil 85-91 → 71-83). Alternativa: no poner el ID y medir solo con Search Console.
 - [ ] **[Tú]** Cuando haya datos, comparar `cta_click` de `location=floating` contra `location=hero` para medir el botón flotante. Otros eventos ya medidos: `gallery_open`, `section_view`, `generate_lead`.
 
 ## 4. SEO y presencia
@@ -74,7 +73,7 @@ Leyenda: **[Tú]** lo haces tú · **[Cliente]** depende de Julio · **[Claude]*
 - [ ] `/robots.txt` y `/sitemap.xml` con el dominio correcto; canonical y `og:url` sin `localhost`.
 - [ ] Preview de Open Graph al compartir el enlace (WhatsApp, iMessage, LinkedIn). WhatsApp y LinkedIn cachean la imagen: el primer enlace que compartas es el que se guarda.
 - [ ] Favicon y apple-touch-icon en la pestaña y al añadir a pantalla de inicio.
-- [ ] En Vercel: Analytics y Speed Insights muestran visitas; en GA4 (Tiempo real) aparecen `page_view`, `section_view` y `cta_click`.
+- [ ] En GA4 (Tiempo real) aparecen `page_view`, `section_view` y `cta_click`.
 - [ ] Repetir `/seo audit` con el sitio público (ahora con datos reales de Search Console y CrUX).
 
 ---

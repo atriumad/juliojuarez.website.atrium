@@ -1,5 +1,3 @@
-import { track } from "@vercel/analytics";
-
 /** GA4 measurement ID (G-XXXXXXXXXX). GA4 stays off until it is set. */
 export const GA_ID = process.env.NEXT_PUBLIC_GA_ID?.trim() || undefined;
 
@@ -43,14 +41,12 @@ export function loadGA() {
 type EventParams = Record<string, string | number>;
 
 /**
- * Single entry point for custom events. Sends to GA4 (when configured) and to
- * Vercel Analytics (custom events need a paid Vercel plan; harmless otherwise).
+ * Single entry point for custom events. Sends to GA4 when configured.
  * Never throws: measurement must not break the page.
  */
 export function trackEvent(name: string, params: EventParams = {}) {
   try {
     if (GA_ID) gtag("event", name, params);
-    track(name, params);
   } catch {
     // Blocked by an ad blocker or not yet loaded: ignore.
   }
