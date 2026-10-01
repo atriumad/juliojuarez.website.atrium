@@ -1,4 +1,4 @@
-const PRODUCTION_URL = "https://juliojuarez.vercel.app";
+const PRODUCTION_URL = "https://www.chefjuliojuarez.com";
 
 /**
  * Canonical origin. NEXT_PUBLIC_SITE_URL wins (set it when the client's own
