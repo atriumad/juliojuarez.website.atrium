@@ -18,6 +18,7 @@ export const navLinks = [
   { label: "About", href: "#about" },
   { label: "Philosophy", href: "#philosophy" },
   { label: "Gallery", href: "#gallery" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ] as const;
 
@@ -48,7 +49,6 @@ export const about = {
     { years: "2023–2026", role: "Executive Chef", place: "Ocean Prime, Cameron Mitchell Restaurants" },
   ],
   education: "B.A., Universidad Autónoma Benito Juárez de Oaxaca, Mexico",
-  // Placeholder portrait — swap for confirmed photography before publishing.
   image: "/images/chef/julio-juarez-portrait.jpg",
   imageAlt: "Portrait of Chef Julio Juarez",
 } as const;
@@ -69,17 +69,53 @@ export const gallery = {
       { src: img("dishes/tartare-plate"), alt: "Tartare finished with edible flowers in a dark bowl" },
       { src: img("kitchen/julio-juarez-kitchen-team-01"), alt: "Julio Juarez working with a fellow chef at the pass" },
       { src: img("dishes/bread-pudding-dessert"), alt: "Bread pudding dessert with ice cream and caramel" },
+      { src: img("kitchen/julio-juarez-plating-ceviche"), alt: "Julio Juarez plating a ceviche tower with tweezers" },
+      { src: img("chef/julio-juarez-ocean-prime-duo-02"), alt: "Julio Juarez and a fellow chef at Ocean Prime" },
       { src: img("kitchen/julio-juarez-plating-02"), alt: "Julio Juarez plating in a professional kitchen" },
     ],
     [
       { src: img("chef/julio-juarez-kitchen-portrait-01"), alt: "Chef Julio Juarez with arms crossed in the kitchen" },
       { src: img("dishes/lobster-tail-sauces"), alt: "Roasted lobster tail with dipping sauces" },
+      { src: img("chef/julio-juarez-ocean-prime-trio"), alt: "Julio Juarez seated at the bar with two fellow chefs at Ocean Prime" },
       { src: img("kitchen/julio-juarez-molcajete"), alt: "Julio Juarez grinding with a molcajete" },
+      { src: img("chef/julio-juarez-bw-lamps"), alt: "Black and white portrait of Chef Julio Juarez looking off-camera" },
       { src: img("chef/julio-juarez-kitchen-portrait-02"), alt: "Portrait of Chef Julio Juarez in his kitchen" },
       { src: img("kitchen/julio-juarez-kitchen-team-02"), alt: "Julio Juarez preparing food alongside a colleague" },
+      { src: img("chef/julio-juarez-ocean-prime-duo-01"), alt: "Julio Juarez with arms crossed beside a fellow chef at Ocean Prime" },
+      { src: img("chef/julio-juarez-bw-seated"), alt: "Black and white shot of Julio Juarez seated in the dining room" },
       { src: img("kitchen/julio-juarez-plating-hands"), alt: "Hands carrying a freshly plated dish" },
     ],
   ],
+} as const;
+
+// Answers come straight from Julio. Not yet confirmed, so deliberately absent:
+// booking lead time, who pays for groceries, and any pricing figure.
+export const faq = {
+  eyebrow: "Questions",
+  headline: "Before you book",
+  items: [
+    {
+      q: "What does a private dinner include?",
+      a: "A complete dinner at your table. Julio shops for everything, cooks the meal himself, and cleans up when the evening is over.",
+    },
+    {
+      q: "Where do you cook?",
+      a: "Across the Kansas City metropolitan area, at your home or wherever you're hosting.",
+    },
+    {
+      q: "How many guests do you cook for?",
+      a: "Two people at minimum.",
+    },
+    {
+      q: "How do we plan the menu and handle allergies?",
+      a: "Julio builds the menu with you, allergies and dietary needs included, when he comes to your home or office to present his proposal. That visit is free.",
+    },
+    {
+      q: "How much does it cost?",
+      a: "Every dinner is built around the people at the table, so Julio talks through details and pricing in person, once he's sat down with you.",
+    },
+  ],
+  cta: { label: "Start an inquiry", href: "#contact" },
 } as const;
 
 export const philosophy = {

@@ -1,4 +1,4 @@
-import { hero, about, contact, footer, site } from "@/content/site";
+import { hero, about, contact, faq, footer, site } from "@/content/site";
 import { getSiteUrl } from "@/lib/site-url";
 
 /**
@@ -63,6 +63,15 @@ export function buildStructuredData() {
         ...(email && { email }),
         ...(phone && { telephone: phone }),
         ...(footer.instagram && { sameAs: [footer.instagram] }),
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${origin}/#faq`,
+        mainEntity: faq.items.map(({ q, a }) => ({
+          "@type": "Question",
+          name: q,
+          acceptedAnswer: { "@type": "Answer", text: a },
+        })),
       },
       {
         "@type": "Service",
